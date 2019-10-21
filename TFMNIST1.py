@@ -123,7 +123,7 @@ F1 = tf.matmul(tf.transpose(C1Flat),FC1)+B1
 ##Loss
 reg = tf.norm(Ker1)+tf.norm(B1)+tf.norm(FC1)
 output = tf.nn.softmax(F1)
-cross_entropy = tf.nn.softmax_cross_entropy_with_logits(logits=F1,labels=y)+gamma1*reg
+cross_entropy = tf.nn.softmax_cross_entropy_with_logits(logits=output,labels=y)+gamma1*reg
 
 
 #Session and training#########################################################################################################
@@ -172,11 +172,12 @@ for i in range(max_its):
 print('Begining Testing')
 count = 0
 for i in range(10000):
-	ypred = F1.eval(session=sess, feed_dict={x1:mnist.test.images[i],y:mnist.test.labels[i],Mass:M_mat,W1:W1mat,Ind1:Indicies1,MV1:Vals1,DS1:DenseShape1,L1:L1mat,n_pts:784})
-	if np.argmax(ypred) == np.argmax(mnist.test.labels[i]):
-		count = count+1
-		if i%1000 == 0:
-			print(i, 'Tests Complete')
+    batch = mnist.test.next_batch(1)
+    ypred = F1.eval(session=sess, feed_dict={x1:batch[0],y:batch[1],W1:W1mat,Mass:M_mat,Ind1:Indicies1,MV1:Vals1,DS1:DenseShape1,L1:L1mat,n_pts:784})
+    if np.argmax(ypred) == np.argmax(mnist.test.labels[i]):
+        count = count+1
+        if i%1000 == 0:
+            print(i, 'Tests Complete')
 acc = count/10000
 print('Accuacy:', acc)
 

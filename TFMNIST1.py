@@ -172,7 +172,7 @@ for i in range(max_its):
 print('Begining Testing')
 count = 0
 for i in range(10000):
-	ypred = F1.eval(session=sess, feed_dict={x1:mnist.test.images[i],y:mnist.test.labels[i],W1:W1mat,Ind1:Indicies1,MV1:Vals1,DS1:DenseShape1,L1:L1mat,n_pts:784})
+	ypred = F1.eval(session=sess, feed_dict={x1:mnist.test.images[i],y:mnist.test.labels[i],Mass:M_mat,W1:W1mat,Ind1:Indicies1,MV1:Vals1,DS1:DenseShape1,L1:L1mat,n_pts:784})
 	if np.argmax(ypred) == np.argmax(mnist.test.labels[i]):
 		count = count+1
 		if i%1000 == 0:

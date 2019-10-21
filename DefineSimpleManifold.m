@@ -1,0 +1,10 @@
+function [Surf] = DefineSimpleManifold()
+N        = 28;
+[x,y]    = meshgrid(linspace(0,1,N),linspace(0,1,N));
+pts(:,1) = reshape(x,N^2,1);
+pts(:,2) = reshape(y,N^2,1);
+trg      = delaunay(pts);
+z = .3*(.8*cos(6*pts(:,1)).*sin(8*pts(:,2))+.4*pts(:,1).*pts(:,2));
+pts(:,3) = z;
+Surf.pts = pts;
+Surf.trg = trg;
